@@ -19,17 +19,17 @@ struct code_point_view
 {
 public:
   using iterator_type =
-    code_point_iterator<typename boost::basic_string_view<Char, Traits>::iterator>;
+    code_point_iterator<typename std::basic_string_view<Char, Traits>::iterator>;
 
 private:
-  boost::basic_string_view<Char, Traits> view_;
+  std::basic_string_view<Char, Traits> view_;
 
 public:
   code_point_view()                       = default;
   code_point_view(code_point_view const&) = default;
   code_point_view(code_point_view&&)      = default;
 
-  code_point_view(boost::basic_string_view<Char, Traits> view)
+  code_point_view(std::basic_string_view<Char, Traits> view)
     : view_(view)
   {
   }

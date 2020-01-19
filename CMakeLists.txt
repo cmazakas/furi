@@ -10,9 +10,9 @@ project(
     1.0.0
 )
 
-set(CMAKE_CXX_STANDARD "14" CACHE STRING "Required C++ standard")
-if(CMAKE_CXX_STANDARD LESS 14)
-  message(FATAL_ERROR "Minimum C++14 version not met!")
+set(CMAKE_CXX_STANDARD 17 CACHE STRING "Required C++ standard")
+if(CMAKE_CXX_STANDARD LESS 17)
+  message(FATAL_ERROR "Minimum C++17 version not met!")
 endif()
 
 find_package(Boost 1.71 REQUIRED)

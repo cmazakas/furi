@@ -13,7 +13,7 @@
 #define BOOST_SPIRIT_X3_UNICODE
 
 #include <boost/spirit/home/x3.hpp>
-#include <boost/utility/string_view.hpp>
+#include <string_view>
 
 // all credit for the port of `furi::uri::raw` goes to Kojoley from github:
 // https://github.com/boostorg/spirit/issues/487#issuecomment-481899288
@@ -29,7 +29,7 @@ namespace x3
 namespace traits
 {
 template <typename Char, typename Trait>
-struct is_range<boost::basic_string_view<Char, Trait>> : boost::mpl::true_
+struct is_range<std::basic_string_view<Char, Trait>> : boost::mpl::true_
 {
 };
 } // namespace traits

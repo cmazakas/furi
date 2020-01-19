@@ -13,7 +13,7 @@
 namespace x3 = boost::spirit::x3;
 
 auto
-furi::parse_uri(boost::basic_string_view<char, std::char_traits<char>> const uri)
+furi::parse_uri(std::basic_string_view<char, std::char_traits<char>> const uri)
   -> furi::basic_uri_parts<char>
 {
   auto parts = furi::basic_uri_parts<char>();
@@ -26,8 +26,8 @@ furi::parse_uri(boost::basic_string_view<char, std::char_traits<char>> const uri
 }
 
 auto
-furi::parse_complete(boost::basic_string_view<char, std::char_traits<char>> const uri,
-                     furi::basic_uri_parts<char>&                                 parts) -> bool
+furi::parse_complete(std::basic_string_view<char, std::char_traits<char>> const uri,
+                     furi::basic_uri_parts<char>&                               parts) -> bool
 {
   auto       iter = uri.begin();
   auto const end  = uri.end();
@@ -85,8 +85,8 @@ furi::parse_complete(boost::basic_string_view<char, std::char_traits<char>> cons
 }
 
 auto
-furi::parse_authority(boost::basic_string_view<char, std::char_traits<char>> const uri,
-                      furi::basic_uri_parts<char>&                                 parts) -> bool
+furi::parse_authority(std::basic_string_view<char, std::char_traits<char>> const uri,
+                      furi::basic_uri_parts<char>&                               parts) -> bool
 {
   auto       iter = uri.begin();
   auto const end  = uri.end();
@@ -119,7 +119,7 @@ furi::parse_authority(boost::basic_string_view<char, std::char_traits<char>> con
 }
 
 auto
-furi::parse_uri(boost::basic_string_view<char32_t, std::char_traits<char32_t>> const uri)
+furi::parse_uri(std::basic_string_view<char32_t, std::char_traits<char32_t>> const uri)
   -> furi::basic_uri_parts<char32_t>
 {
   auto parts = furi::basic_uri_parts<char32_t>();
@@ -132,7 +132,7 @@ furi::parse_uri(boost::basic_string_view<char32_t, std::char_traits<char32_t>> c
 }
 
 auto
-furi::parse_complete(boost::basic_string_view<char32_t, std::char_traits<char32_t>> const uri,
+furi::parse_complete(std::basic_string_view<char32_t, std::char_traits<char32_t>> const uri,
                      furi::basic_uri_parts<char32_t>& parts) -> bool
 {
   auto       iter = uri.begin();
@@ -201,7 +201,7 @@ furi::parse_complete(boost::basic_string_view<char32_t, std::char_traits<char32_
 }
 
 auto
-furi::parse_authority(boost::basic_string_view<char32_t, std::char_traits<char32_t>> const uri,
+furi::parse_authority(std::basic_string_view<char32_t, std::char_traits<char32_t>> const uri,
                       furi::basic_uri_parts<char32_t>& parts) -> bool
 {
   auto       iter = uri.begin();

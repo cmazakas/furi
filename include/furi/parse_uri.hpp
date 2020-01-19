@@ -15,26 +15,25 @@
 namespace furi
 {
 auto
-parse_uri(boost::basic_string_view<char, std::char_traits<char>> const uri)
-  -> basic_uri_parts<char>;
+parse_uri(std::basic_string_view<char, std::char_traits<char>> const uri) -> basic_uri_parts<char>;
 
 auto
-parse_complete(boost::basic_string_view<char, std::char_traits<char>> const uri,
-               basic_uri_parts<char>&                                       parts) -> bool;
+parse_complete(std::basic_string_view<char, std::char_traits<char>> const uri,
+               basic_uri_parts<char>&                                     parts) -> bool;
 
 auto
-parse_authority(boost::basic_string_view<char, std::char_traits<char>> const uri,
-                basic_uri_parts<char>&                                       parts) -> bool;
+parse_authority(std::basic_string_view<char, std::char_traits<char>> const uri,
+                basic_uri_parts<char>&                                     parts) -> bool;
 auto
-parse_uri(boost::basic_string_view<char32_t, std::char_traits<char32_t>> const uri)
+parse_uri(std::basic_string_view<char32_t, std::char_traits<char32_t>> const uri)
   -> basic_uri_parts<char32_t>;
 
 auto
-parse_complete(boost::basic_string_view<char32_t, std::char_traits<char32_t>> const uri,
-               basic_uri_parts<char32_t>&                                           parts) -> bool;
+parse_complete(std::basic_string_view<char32_t, std::char_traits<char32_t>> const uri,
+               basic_uri_parts<char32_t>&                                         parts) -> bool;
 
 auto
-parse_authority(boost::basic_string_view<char32_t, std::char_traits<char32_t>> const uri,
-                basic_uri_parts<char32_t>&                                           parts) -> bool;
+parse_authority(std::basic_string_view<char32_t, std::char_traits<char32_t>> const uri,
+                basic_uri_parts<char32_t>&                                         parts) -> bool;
 } // namespace furi
 #endif // FURI_PARSE_URI_HPP_

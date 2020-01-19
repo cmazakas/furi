@@ -10,7 +10,7 @@
 #ifndef FURI_URI_PARTS_HPP_
 #define FURI_URI_PARTS_HPP_
 
-#include <boost/utility/string_view.hpp>
+#include <string_view>
 
 namespace furi
 {
@@ -18,32 +18,32 @@ template <class CharT>
 struct basic_uri_parts
 {
 public:
-  using string_view = boost::basic_string_view<CharT, std::char_traits<CharT>>;
+  using string_view = std::basic_string_view<CharT, std::char_traits<CharT>>;
   using iterator    = typename string_view::iterator;
 
   friend auto
-  parse_uri(boost::basic_string_view<char, std::char_traits<char>> const uri)
+  parse_uri(std::basic_string_view<char, std::char_traits<char>> const uri)
     -> basic_uri_parts<char>;
 
   friend auto
-  parse_complete(boost::basic_string_view<char, std::char_traits<char>> const uri,
-                 basic_uri_parts<char>&                                       parts) -> bool;
+  parse_complete(std::basic_string_view<char, std::char_traits<char>> const uri,
+                 basic_uri_parts<char>&                                     parts) -> bool;
 
   friend auto
-  parse_authority(boost::basic_string_view<char, std::char_traits<char>> const uri,
-                  basic_uri_parts<char>&                                       parts) -> bool;
+  parse_authority(std::basic_string_view<char, std::char_traits<char>> const uri,
+                  basic_uri_parts<char>&                                     parts) -> bool;
 
   friend auto
-  parse_uri(boost::basic_string_view<char32_t, std::char_traits<char32_t>> const uri)
+  parse_uri(std::basic_string_view<char32_t, std::char_traits<char32_t>> const uri)
     -> basic_uri_parts<char32_t>;
 
   friend auto
-  parse_complete(boost::basic_string_view<char32_t, std::char_traits<char32_t>> const uri,
-                 basic_uri_parts<char32_t>& parts) -> bool;
+  parse_complete(std::basic_string_view<char32_t, std::char_traits<char32_t>> const uri,
+                 basic_uri_parts<char32_t>&                                         parts) -> bool;
 
   friend auto
-  parse_authority(boost::basic_string_view<char32_t, std::char_traits<char32_t>> const uri,
-                  basic_uri_parts<char32_t>& parts) -> bool;
+  parse_authority(std::basic_string_view<char32_t, std::char_traits<char32_t>> const uri,
+                  basic_uri_parts<char32_t>&                                         parts) -> bool;
 
 private:
   string_view scheme_;
@@ -54,13 +54,13 @@ private:
   string_view fragment_;
 
   static auto
-  is_http_impl(boost::basic_string_view<char, std::char_traits<char>> const scheme) -> bool
+  is_http_impl(std::basic_string_view<char, std::char_traits<char>> const scheme) -> bool
   {
     return scheme == "http" || scheme == "https";
   }
 
   static auto
-  is_http_impl(boost::basic_string_view<char32_t, std::char_traits<char32_t>> const scheme) -> bool
+  is_http_impl(std::basic_string_view<char32_t, std::char_traits<char32_t>> const scheme) -> bool
   {
     return scheme == U"http" || scheme == U"https";
   }

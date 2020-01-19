@@ -14,7 +14,7 @@
 #include <furi/utf8.hpp>
 #include <furi/code_point_view.hpp>
 
-#include <boost/utility/string_view.hpp>
+#include <string_view>
 #include <boost/locale/utf.hpp>
 
 #include <boost/spirit/include/karma_generate.hpp>
@@ -36,7 +36,7 @@ namespace uri
 {
 template <class OutputIterator>
 auto
-encode_host(boost::u32string_view const host, OutputIterator out) -> OutputIterator
+encode_host(std::u32string_view const host, OutputIterator out) -> OutputIterator
 {
   namespace x3    = boost::spirit::x3;
   namespace utf   = boost::locale::utf;
@@ -56,8 +56,7 @@ encode_host(boost::u32string_view const host, OutputIterator out) -> OutputItera
     // no need to encode the normal ascii set
     //
     if ((code_point > 32) && (code_point < 127) &&
-        boost::u32string_view(U"\"#/<>?@[\\]^`{|}").find(code_point) ==
-          boost::u32string_view::npos) {
+        std::u32string_view(U"\"#/<>?@[\\]^`{|}").find(code_point) == std::u32string_view::npos) {
       out = utf::utf_traits<char>::encode(code_point, out);
       continue;
     }
@@ -77,7 +76,7 @@ encode_host(boost::u32string_view const host, OutputIterator out) -> OutputItera
 
 template <class OutputIterator>
 auto
-encode_path(boost::u32string_view const host, OutputIterator out) -> OutputIterator
+encode_path(std::u32string_view const host, OutputIterator out) -> OutputIterator
 {
   namespace x3    = boost::spirit::x3;
   namespace utf   = boost::locale::utf;
@@ -87,7 +86,7 @@ encode_path(boost::u32string_view const host, OutputIterator out) -> OutputItera
     // no need to encode the normal ascii set
     //
     if ((code_point > 32) && (code_point < 127) &&
-        boost::u32string_view(U"\"#<>?[\\]^`{|}").find(code_point) == boost::u32string_view::npos) {
+        std::u32string_view(U"\"#<>?[\\]^`{|}").find(code_point) == std::u32string_view::npos) {
       out = utf::utf_traits<char>::encode(code_point, out);
       continue;
     }
@@ -107,7 +106,7 @@ encode_path(boost::u32string_view const host, OutputIterator out) -> OutputItera
 
 template <class OutputIterator>
 auto
-encode_query(boost::u32string_view const host, OutputIterator out) -> OutputIterator
+encode_query(std::u32string_view const host, OutputIterator out) -> OutputIterator
 {
   namespace x3    = boost::spirit::x3;
   namespace utf   = boost::locale::utf;
@@ -117,8 +116,7 @@ encode_query(boost::u32string_view const host, OutputIterator out) -> OutputIter
     // no need to encode the normal ascii set
     //
     if ((code_point > 32) && (code_point < 127) &&
-        boost::u32string_view(U"\"#:<>@[\\]^`{|}").find(code_point) ==
-          boost::u32string_view::npos) {
+        std::u32string_view(U"\"#:<>@[\\]^`{|}").find(code_point) == std::u32string_view::npos) {
       out = utf::utf_traits<char>::encode(code_point, out);
       continue;
     }
@@ -138,7 +136,7 @@ encode_query(boost::u32string_view const host, OutputIterator out) -> OutputIter
 
 template <class OutputIterator>
 auto
-encode_fragment(boost::u32string_view const host, OutputIterator out) -> OutputIterator
+encode_fragment(std::u32string_view const host, OutputIterator out) -> OutputIterator
 {
   return encode_query(host, out);
 }

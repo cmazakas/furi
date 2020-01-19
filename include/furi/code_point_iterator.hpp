@@ -10,7 +10,7 @@
 #ifndef FURI_CODE_POINT_ITERATOR_HPP_
 #define FURI_CODE_POINT_ITERATOR_HPP_
 
-#include <boost/utility/string_view.hpp>
+#include <string_view>
 #include <boost/locale/utf.hpp>
 #include <iterator>
 #include <utility>

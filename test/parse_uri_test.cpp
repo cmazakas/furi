@@ -10,7 +10,7 @@
 #define CATCH_CONFIG_MAIN
 
 #include <furi/parse_uri.hpp>
-#include <boost/utility/string_view.hpp>
+#include <string_view>
 
 #include <catch2/catch.hpp>
 
@@ -18,7 +18,7 @@ TEST_CASE("uri_parts_test")
 {
   SECTION("should be able to decompose a well-formed URI")
   {
-    auto const view = boost::string_view("http://www.google.com:80/hello?query#fragment");
+    auto const view = std::string_view("http://www.google.com:80/hello?query#fragment");
 
     auto const uri_parts = furi::parse_uri(view);
 
@@ -36,7 +36,7 @@ TEST_CASE("uri_parts_test")
 
   SECTION("should handle an empty URL")
   {
-    auto const view = boost::string_view("http:");
+    auto const view = std::string_view("http:");
 
     auto const uri_parts = furi::parse_uri(view);
 
@@ -54,7 +54,7 @@ TEST_CASE("uri_parts_test")
 
   SECTION("should handle wonky user-input")
   {
-    auto const view = boost::string_view("foof://:;@[::]/@;:??:;@/~@;://#//:;@~/@;:\?\?//:foof");
+    auto const view = std::string_view("foof://:;@[::]/@;:??:;@/~@;://#//:;@~/@;:\?\?//:foof");
 
     auto const uri_parts = furi::parse_uri(view);
 
@@ -72,7 +72,7 @@ TEST_CASE("uri_parts_test")
 
   SECTION("support a partial URI")
   {
-    auto const view = boost::string_view("www.example.com:80");
+    auto const view = std::string_view("www.example.com:80");
 
     auto const uri_parts = furi::parse_uri(view);
 
@@ -90,7 +90,7 @@ TEST_CASE("uri_parts_test")
 
   SECTION("support a partial URI wihout a port")
   {
-    auto const view = boost::string_view("www.example.com/page1?user-info#lol");
+    auto const view = std::string_view("www.example.com/page1?user-info#lol");
 
     auto const uri_parts = furi::parse_uri(view);
 
@@ -108,7 +108,7 @@ TEST_CASE("uri_parts_test")
 
   SECTION("should handle another esoteric example")
   {
-    auto const view = boost::string_view(
+    auto const view = std::string_view(
       "https://www.example.com/s/"
       "ref=sr_nr_p_n_feature_five_bro_0?fst=as%3Aoff&rh=n%3A172282%2Cn%3A!493964%2Cn%3A541966%2Cn%"
       "3A13896617011%2Cn%3A565108%2Cn%3A13896615011%2Cp_n_operating_system_browse-bin%"
@@ -138,7 +138,7 @@ TEST_CASE("uri_parts_test")
 
   SECTION("should handle yet another esoteric example")
   {
-    auto const view = boost::string_view(
+    auto const view = std::string_view(
       "https://www.example.com/mn/search/tools/"
       "translate?ie=UTF8&page=1&rh=i%3Aaps%2Ck%3A1516700104%7C"
       "1516700112%7C1516700120%7C1516700139%7C1516700147%7C1516700155%7C1516700163%7C1630949019%"
@@ -199,7 +199,7 @@ TEST_CASE("uri_parts_test")
     // https://github.com/golang/go/issues/29098
     //
     {
-      auto const view = boost::string_view("http://google.com]:80");
+      auto const view = std::string_view("http://google.com]:80");
 
       auto const uri_parts = furi::parse_uri(view);
 
@@ -216,7 +216,7 @@ TEST_CASE("uri_parts_test")
     }
 
     {
-      auto const view = boost::string_view("http://google.com]:80__Anything_you'd_like_sir");
+      auto const view = std::string_view("http://google.com]:80__Anything_you'd_like_sir");
 
       auto const uri_parts = furi::parse_uri(view);
 
@@ -233,7 +233,7 @@ TEST_CASE("uri_parts_test")
     }
 
     {
-      auto const view = boost::string_view("http://[google.com]FreeTextZoneHere]:80");
+      auto const view = std::string_view("http://[google.com]FreeTextZoneHere]:80");
 
       auto const uri_parts = furi::parse_uri(view);
 
@@ -252,7 +252,7 @@ TEST_CASE("uri_parts_test")
 
   SECTION("[unicode] should be able to decompose a well-formed URI")
   {
-    auto const view = boost::u32string_view(U"http://www.google.com:80/hello?query#fragment");
+    auto const view = std::u32string_view(U"http://www.google.com:80/hello?query#fragment");
 
     auto const uri_parts = furi::parse_uri(view);
 
@@ -270,7 +270,7 @@ TEST_CASE("uri_parts_test")
 
   SECTION("[unicode] should be able to decompose a well-formed URI in a native language")
   {
-    auto const view = boost::u32string_view(U"http://\u017C\u00F3\u0142\u0107.pl/");
+    auto const view = std::u32string_view(U"http://\u017C\u00F3\u0142\u0107.pl/");
 
     auto const uri_parts = furi::parse_uri(view);
 
@@ -288,7 +288,7 @@ TEST_CASE("uri_parts_test")
 
   SECTION("[unicode] should handle an empty URL")
   {
-    auto const view = boost::u32string_view(U"http:");
+    auto const view = std::u32string_view(U"http:");
 
     auto const uri_parts = furi::parse_uri(view);
 
@@ -306,8 +306,7 @@ TEST_CASE("uri_parts_test")
 
   SECTION("[unicode] should handle wonky user-input")
   {
-    auto const view =
-      boost::u32string_view(U"foof://:;@[::]/@;:??:;@/~@;://#//:;@~/@;:\?\?//:foof");
+    auto const view = std::u32string_view(U"foof://:;@[::]/@;:??:;@/~@;://#//:;@~/@;:\?\?//:foof");
 
     auto const uri_parts = furi::parse_uri(view);
 
@@ -325,7 +324,7 @@ TEST_CASE("uri_parts_test")
 
   SECTION("[unicode] support a partial URI")
   {
-    auto const view = boost::u32string_view(U"www.example.com:80");
+    auto const view = std::u32string_view(U"www.example.com:80");
 
     auto const uri_parts = furi::parse_uri(view);
 
@@ -343,7 +342,7 @@ TEST_CASE("uri_parts_test")
 
   SECTION("[unicode] support a partial URI wihout a port")
   {
-    auto const view = boost::u32string_view(U"www.example.com/page1?user-info#lol");
+    auto const view = std::u32string_view(U"www.example.com/page1?user-info#lol");
 
     auto const uri_parts = furi::parse_uri(view);
 
@@ -361,7 +360,7 @@ TEST_CASE("uri_parts_test")
 
   SECTION("[unicode] should handle another esoteric example")
   {
-    auto const view = boost::u32string_view(
+    auto const view = std::u32string_view(
       U"https://www.example.com/s/"
       U"ref=sr_nr_p_n_feature_five_bro_0?fst=as%3Aoff&rh=n%3A172282%2Cn%3A!493964%2Cn%3A541966%2Cn%"
       U"3A13896617011%2Cn%3A565108%2Cn%3A13896615011%2Cp_n_operating_system_browse-bin%"
@@ -393,7 +392,7 @@ TEST_CASE("uri_parts_test")
 
   SECTION("[unicode] should handle yet another esoteric example")
   {
-    auto const view = boost::u32string_view(
+    auto const view = std::u32string_view(
       U"https://www.example.com/mn/search/tools/"
       U"translate?ie=UTF8&page=1&rh=i%3Aaps%2Ck%3A1516700104%7C"
       U"1516700112%7C1516700120%7C1516700139%7C1516700147%7C1516700155%7C1516700163%7C1630949019%"
@@ -454,7 +453,7 @@ TEST_CASE("uri_parts_test")
     // https://github.com/golang/go/issues/29098
     //
     {
-      auto const view = boost::u32string_view(U"http://google.com]:80");
+      auto const view = std::u32string_view(U"http://google.com]:80");
 
       auto const uri_parts = furi::parse_uri(view);
 
@@ -471,7 +470,7 @@ TEST_CASE("uri_parts_test")
     }
 
     {
-      auto const view = boost::u32string_view(U"http://google.com]:80__Anything_you'd_like_sir");
+      auto const view = std::u32string_view(U"http://google.com]:80__Anything_you'd_like_sir");
 
       auto const uri_parts = furi::parse_uri(view);
 
@@ -488,7 +487,7 @@ TEST_CASE("uri_parts_test")
     }
 
     {
-      auto const view = boost::u32string_view(U"http://[google.com]FreeTextZoneHere]:80");
+      auto const view = std::u32string_view(U"http://[google.com]FreeTextZoneHere]:80");
 
       auto const uri_parts = furi::parse_uri(view);
 

@@ -14,7 +14,7 @@
 
 #include <furi/error.hpp>
 
-#include <boost/utility/string_view.hpp>
+#include <string_view>
 
 #include <boost/fusion/adapted/std_pair.hpp>
 #include <boost/fusion/include/std_pair.hpp>
@@ -31,13 +31,13 @@ namespace x3 = boost::spirit::x3;
 
 x3::rule<struct xpair, std::pair<char, char>> const xpair     = "xpair";
 auto const                                          xpair_def = "%" >> x3::xdigit >> x3::xdigit;
-BOOST_SPIRIT_DEFINE(xpair);
+BOOST_SPIRIT_DEFINE(xpair)
 
 namespace detail
 {
 template <class OutputIterator>
 auto
-pct_decode_impl(boost::string_view const str, OutputIterator& sink) -> bool
+pct_decode_impl(std::string_view const str, OutputIterator& sink) -> bool
 {
   auto pos = str.begin();
 
@@ -65,7 +65,7 @@ pct_decode_impl(boost::string_view const str, OutputIterator& sink) -> bool
 
 template <class OutputIterator>
 auto
-pct_decode(boost::string_view const str, OutputIterator& sink) -> void
+pct_decode(std::string_view const str, OutputIterator& sink) -> void
 {
   auto const full_match = detail::pct_decode_impl(str, sink);
   if (!full_match) { throw ::furi::make_error_code(::furi::error::unexpected_pct); }
@@ -73,9 +73,8 @@ pct_decode(boost::string_view const str, OutputIterator& sink) -> void
 
 template <class OutputIterator>
 auto
-pct_decode(boost::string_view const   str,
-           OutputIterator             sink,
-           boost::system::error_code& ec) noexcept -> OutputIterator
+pct_decode(std::string_view const str, OutputIterator sink, boost::system::error_code& ec) noexcept
+  -> OutputIterator
 {
   auto const full_match = detail::pct_decode_impl(str, sink);
 

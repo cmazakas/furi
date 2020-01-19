@@ -10,7 +10,7 @@
 #define CATCH_CONFIG_MAIN
 
 #include <furi/uri.hpp>
-#include <boost/utility/string_view.hpp>
+#include <string_view>
 #include <vector>
 #include <algorithm>
 
@@ -22,8 +22,8 @@ TEST_CASE("unicode_uri_test")
 {
   SECTION("should parse the sub-delims")
   {
-    auto const delims = std::vector<boost::u32string_view>{U"!", U"$", U"&", U"'", U"(", U")",
-                                                           U"*", U"+", U",", U";", U"="};
+    auto const delims = std::vector<std::u32string_view>{U"!", U"$", U"&", U"'", U"(", U")",
+                                                         U"*", U"+", U",", U";", U"="};
 
     auto const matched_all_sub_delims =
       std::all_of(delims.begin(), delims.end(), [](auto const delim) -> bool {
@@ -35,7 +35,7 @@ TEST_CASE("unicode_uri_test")
 
     CHECK(matched_all_sub_delims);
 
-    auto       view  = boost::u32string_view(U"rawr");
+    auto       view  = std::u32string_view(U"rawr");
     auto       begin = view.begin();
     auto const end   = view.end();
 
@@ -46,8 +46,7 @@ TEST_CASE("unicode_uri_test")
 
   SECTION("should parse the gen-delims")
   {
-    auto const delims =
-      std::vector<boost::u32string_view>{U":", U"/", U"?", U"#", U"[", U"]", U"@"};
+    auto const delims = std::vector<std::u32string_view>{U":", U"/", U"?", U"#", U"[", U"]", U"@"};
 
     auto const matched_all_gen_delims =
       std::all_of(delims.begin(), delims.end(), [](auto const delim) -> bool {
@@ -59,7 +58,7 @@ TEST_CASE("unicode_uri_test")
 
     CHECK(matched_all_gen_delims);
 
-    auto       view  = boost::u32string_view(U"rawr");
+    auto       view  = std::u32string_view(U"rawr");
     auto       begin = view.begin();
     auto const end   = view.end();
 
@@ -71,8 +70,8 @@ TEST_CASE("unicode_uri_test")
   SECTION("should parse the reserved")
   {
     auto const delims =
-      std::vector<boost::u32string_view>{U":", U"/", U"?", U"#", U"[", U"]", U"@", U"!", U"$",
-                                         U"&", U"'", U"(", U")", U"*", U"+", U",", U";", U"="};
+      std::vector<std::u32string_view>{U":", U"/", U"?", U"#", U"[", U"]", U"@", U"!", U"$",
+                                       U"&", U"'", U"(", U")", U"*", U"+", U",", U";", U"="};
 
     auto const matched_all_reserved =
       std::all_of(delims.begin(), delims.end(), [](auto const delim) -> bool {
@@ -85,7 +84,7 @@ TEST_CASE("unicode_uri_test")
     CHECK(matched_all_reserved);
 
     {
-      auto       view  = boost::u32string_view(U"rawr");
+      auto       view  = std::u32string_view(U"rawr");
       auto       begin = view.begin();
       auto const end   = view.end();
 
@@ -95,7 +94,7 @@ TEST_CASE("unicode_uri_test")
     }
 
     {
-      auto       view  = boost::u32string_view(U"~~~~Leonine.King1199__---");
+      auto       view  = std::u32string_view(U"~~~~Leonine.King1199__---");
       auto       begin = view.begin();
       auto const end   = view.end();
 
@@ -108,7 +107,7 @@ TEST_CASE("unicode_uri_test")
 
   SECTION("should support percent encoded parsing")
   {
-    auto       view  = boost::u32string_view(U"%5B");
+    auto       view  = std::u32string_view(U"%5B");
     auto       begin = view.begin();
     auto const end   = view.end();
 
@@ -123,7 +122,7 @@ TEST_CASE("unicode_uri_test")
     // unreserved + ":@" portion of pchar
     //
     {
-      auto       view  = boost::u32string_view(U"~~:~~Le@on@ine.King1199__--:-");
+      auto       view  = std::u32string_view(U"~~:~~Le@on@ine.King1199__--:-");
       auto       begin = view.begin();
       auto const end   = view.end();
 
@@ -136,7 +135,7 @@ TEST_CASE("unicode_uri_test")
     // pct_encoded portion of pchar
     //
     {
-      auto       view  = boost::u32string_view(U"%5B");
+      auto       view  = std::u32string_view(U"%5B");
       auto       begin = view.begin();
       auto const end   = view.end();
 
@@ -149,8 +148,8 @@ TEST_CASE("unicode_uri_test")
     // sub_delims portion of pchar
     //
     {
-      auto const delims = std::vector<boost::u32string_view>{U"!", U"$", U"&", U"'", U"(", U")",
-                                                             U"*", U"+", U",", U";", U"="};
+      auto const delims = std::vector<std::u32string_view>{U"!", U"$", U"&", U"'", U"(", U")",
+                                                           U"*", U"+", U",", U";", U"="};
 
       auto const matched_all_sub_delims =
         std::all_of(delims.begin(), delims.end(), [](auto const delim) -> bool {
@@ -167,7 +166,7 @@ TEST_CASE("unicode_uri_test")
   SECTION("should support query/fragment parsing")
   {
     {
-      auto       view  = boost::u32string_view(U"/lol?asdfasdfasdf");
+      auto       view  = std::u32string_view(U"/lol?asdfasdfasdf");
       auto       begin = view.begin();
       auto const end   = view.end();
 
@@ -182,7 +181,7 @@ TEST_CASE("unicode_uri_test")
 
   SECTION("should support decimal octet parsing")
   {
-    auto const valid_inputs = std::vector<boost::u32string_view>{
+    auto const valid_inputs = std::vector<std::u32string_view>{
       U"0", U"1", U"9", U"10", U"99", U"100", U"199", U"200", U"249", U"250", U"255"};
 
     auto const all_match =
@@ -200,7 +199,7 @@ TEST_CASE("unicode_uri_test")
     CHECK(all_match);
 
     auto const invalid_inputs =
-      std::vector<boost::u32string_view>{U"lolol", U"-1", U"256", U"010", U"01", U"267", U"1337"};
+      std::vector<std::u32string_view>{U"lolol", U"-1", U"256", U"010", U"01", U"267", U"1337"};
 
     auto const none_match =
       std::all_of(invalid_inputs.begin(), invalid_inputs.end(), [](auto const view) -> bool {
@@ -218,8 +217,8 @@ TEST_CASE("unicode_uri_test")
 
   SECTION("should support IPv4 address parsing")
   {
-    auto const valid_inputs = std::vector<boost::u32string_view>{U"127.0.0.1", U"255.255.255.255",
-                                                                 U"0.0.0.0", U"192.68.0.27"};
+    auto const valid_inputs = std::vector<std::u32string_view>{U"127.0.0.1", U"255.255.255.255",
+                                                               U"0.0.0.0", U"192.68.0.27"};
 
     auto const all_match =
       std::all_of(valid_inputs.begin(), valid_inputs.end(), [](auto const view) -> bool {
@@ -235,7 +234,7 @@ TEST_CASE("unicode_uri_test")
 
     CHECK(all_match);
 
-    auto const invalid_inputs = std::vector<boost::u32string_view>{
+    auto const invalid_inputs = std::vector<std::u32string_view>{
       U"127.0.0.01", U"255.255.255.255.255", U"a.b.c.d", U"192.68.334340.2227", U"127.0.1"};
 
     auto const none_match =
@@ -255,50 +254,50 @@ TEST_CASE("unicode_uri_test")
   SECTION("should support IPv6 address parsing")
   {
     auto const valid_inputs =
-      std::vector<boost::u32string_view>{U"3ffe:1900:4545:3:200:f8ff:fe21:67cf",
-                                         U"fe80:0:0:0:200:f8ff:fe21:67cf",
-                                         U"2001:0db8:0a0b:12f0:0000:0000:0000:0001",
-                                         U"2001:db8:3333:4444:5555:6666:7777:8888",
-                                         U"2001:db8:3333:4444:CCCC:DDDD:EEEE:FFFF",
-                                         U"::",
-                                         U"2001:db8::",
-                                         U"::1234:5678",
-                                         U"2001:db8::1234:5678",
-                                         U"2001:0db8:0001:0000:0000:0ab9:C0A8:0102",
-                                         U"2001:db8:1::ab9:C0A8:102",
-                                         U"684D:1111:222:3333:4444:5555:6:77",
-                                         U"0:0:0:0:0:0:0:0",
-                                         U"0000:0000:0000:0000:0000:0000:0000:0000",
-                                         U"1234:5678:9ABC:DEF0:0000:0000:0000:0000",
-                                         U"3FFE:1900:4545:3:200:F8FF:FE21:67CF",
-                                         U"FE80:0:0:0:200:F8FF:FE21:67CF",
-                                         U"2001:0DB8:0A0B:12F0:0000:0000:0000:0001",
-                                         U"2001:DB8:3333:4444:5555:6666:7777:8888",
-                                         U"2001:DB8:3333:4444:CCCC:DDDD:EEEE:FFFF",
-                                         U"2001:DB8::",
-                                         U"::1234:5678",
-                                         U"2001:DB8::1234:5678",
-                                         U"2001:0DB8:0001:0000:0000:0AB9:C0A8:0102",
-                                         U"2001:DB8:1::AB9:C0A8:102",
-                                         U"684D:1111:222:3333:4444:5555:6:77",
-                                         U"0:0:0:0:0:0:0:0",
-                                         U"::1:2:3:4:5",
-                                         U"0:0:0:1:2:3:4:5",
-                                         U"1:2::3:4:5",
-                                         U"1:2:0:0:0:3:4:5",
-                                         U"1:2:3:4:5::",
-                                         U"1:2:3:4:5:0:0:0",
-                                         U"0:0:0:0:0:FFFF:102:405",
-                                         U"::0",
-                                         U"::1",
-                                         U"0:0:0::1",
-                                         U"FFFF::1",
-                                         U"FFFF:0:0:0:0:0:0:1",
-                                         U"2001:0DB8:0A0B:12F0:0:0:0:1",
-                                         U"2001:DB8:A0B:12F0::1",
-                                         U"::FFFF:1.2.3.4",
-                                         U"0:0:0:0:0:0:1.2.3.4",
-                                         U"::1.2.3.4"};
+      std::vector<std::u32string_view>{U"3ffe:1900:4545:3:200:f8ff:fe21:67cf",
+                                       U"fe80:0:0:0:200:f8ff:fe21:67cf",
+                                       U"2001:0db8:0a0b:12f0:0000:0000:0000:0001",
+                                       U"2001:db8:3333:4444:5555:6666:7777:8888",
+                                       U"2001:db8:3333:4444:CCCC:DDDD:EEEE:FFFF",
+                                       U"::",
+                                       U"2001:db8::",
+                                       U"::1234:5678",
+                                       U"2001:db8::1234:5678",
+                                       U"2001:0db8:0001:0000:0000:0ab9:C0A8:0102",
+                                       U"2001:db8:1::ab9:C0A8:102",
+                                       U"684D:1111:222:3333:4444:5555:6:77",
+                                       U"0:0:0:0:0:0:0:0",
+                                       U"0000:0000:0000:0000:0000:0000:0000:0000",
+                                       U"1234:5678:9ABC:DEF0:0000:0000:0000:0000",
+                                       U"3FFE:1900:4545:3:200:F8FF:FE21:67CF",
+                                       U"FE80:0:0:0:200:F8FF:FE21:67CF",
+                                       U"2001:0DB8:0A0B:12F0:0000:0000:0000:0001",
+                                       U"2001:DB8:3333:4444:5555:6666:7777:8888",
+                                       U"2001:DB8:3333:4444:CCCC:DDDD:EEEE:FFFF",
+                                       U"2001:DB8::",
+                                       U"::1234:5678",
+                                       U"2001:DB8::1234:5678",
+                                       U"2001:0DB8:0001:0000:0000:0AB9:C0A8:0102",
+                                       U"2001:DB8:1::AB9:C0A8:102",
+                                       U"684D:1111:222:3333:4444:5555:6:77",
+                                       U"0:0:0:0:0:0:0:0",
+                                       U"::1:2:3:4:5",
+                                       U"0:0:0:1:2:3:4:5",
+                                       U"1:2::3:4:5",
+                                       U"1:2:0:0:0:3:4:5",
+                                       U"1:2:3:4:5::",
+                                       U"1:2:3:4:5:0:0:0",
+                                       U"0:0:0:0:0:FFFF:102:405",
+                                       U"::0",
+                                       U"::1",
+                                       U"0:0:0::1",
+                                       U"FFFF::1",
+                                       U"FFFF:0:0:0:0:0:0:1",
+                                       U"2001:0DB8:0A0B:12F0:0:0:0:1",
+                                       U"2001:DB8:A0B:12F0::1",
+                                       U"::FFFF:1.2.3.4",
+                                       U"0:0:0:0:0:0:1.2.3.4",
+                                       U"::1.2.3.4"};
 
     auto const all_match =
       std::all_of(valid_inputs.begin(), valid_inputs.end(), [](auto const view) -> bool {
@@ -313,27 +312,27 @@ TEST_CASE("unicode_uri_test")
 
     CHECK(all_match);
 
-    auto const invalid_inputs = std::vector<boost::u32string_view>{U"0",
-                                                                   U"0:1.2.3.4",
-                                                                   U"0:0:0:0:0:0:0::1.2.3.4",
-                                                                   U"0:0:0:0:0:0:0:1.2.3.4",
-                                                                   U":",
-                                                                   U"::0::",
-                                                                   U":0::",
-                                                                   U"0::0:x",
-                                                                   U"x::",
-                                                                   U"0:12",
-                                                                   U"0:123",
-                                                                   U"::1.",
-                                                                   U"::1.2",
-                                                                   U"::1.2",
-                                                                   U"::1.2x",
-                                                                   U"::1.2.",
-                                                                   U"::1.2.3",
-                                                                   U"::1.2.3",
-                                                                   U"::1.2.3x",
-                                                                   U"::1.2.3.",
-                                                                   U"::1.2.3.4x"};
+    auto const invalid_inputs = std::vector<std::u32string_view>{U"0",
+                                                                 U"0:1.2.3.4",
+                                                                 U"0:0:0:0:0:0:0::1.2.3.4",
+                                                                 U"0:0:0:0:0:0:0:1.2.3.4",
+                                                                 U":",
+                                                                 U"::0::",
+                                                                 U":0::",
+                                                                 U"0::0:x",
+                                                                 U"x::",
+                                                                 U"0:12",
+                                                                 U"0:123",
+                                                                 U"::1.",
+                                                                 U"::1.2",
+                                                                 U"::1.2",
+                                                                 U"::1.2x",
+                                                                 U"::1.2.",
+                                                                 U"::1.2.3",
+                                                                 U"::1.2.3",
+                                                                 U"::1.2.3x",
+                                                                 U"::1.2.3.",
+                                                                 U"::1.2.3.4x"};
 
     auto const none_match =
       std::all_of(invalid_inputs.begin(), invalid_inputs.end(), [](auto const view) -> bool {
@@ -352,25 +351,25 @@ TEST_CASE("unicode_uri_test")
   SECTION("should support URI parsing")
   {
     auto const valid_inputs =
-      std::vector<boost::u32string_view>{U"https://www.google.com",
-                                         U"http://example.com/",
-                                         U"http://goo%20%20goo%7C%7C.com/",
-                                         U"http://a.com/",
-                                         U"http://192.168.0.1/",
-                                         U"http://xn--6qqa088eba/",
-                                         U"foobar://www.example.com:80/",
-                                         U"http://example.com/foo%09%C2%91%93",
-                                         U"http://example.com/%7Ffp3%3Eju%3Dduvgw%3Dd",
-                                         U"http://www.example.com/?%02hello%7F%20bye",
-                                         U"http://www.example.com/?q=%26%2355296%3B%26%2355296%3B",
-                                         U"http://www.example.com/?foo=bar",
-                                         U"http://www.example.com/#hello",
-                                         U"http://www.example.com/#%23asdf",
-                                         U"http:",
-                                         U"asdf:jkl;",
-                                         U"foof://:;@[::]/@;:??:;@/~@;://#//:;@~/@;:\?\?//:foof",
-                                         U"http://ay%40lmao:password@[fe80::]/p@th?q=@lol",
-                                         U"http://\u017C\u00F3\u0142\u0107.pl/"};
+      std::vector<std::u32string_view>{U"https://www.google.com",
+                                       U"http://example.com/",
+                                       U"http://goo%20%20goo%7C%7C.com/",
+                                       U"http://a.com/",
+                                       U"http://192.168.0.1/",
+                                       U"http://xn--6qqa088eba/",
+                                       U"foobar://www.example.com:80/",
+                                       U"http://example.com/foo%09%C2%91%93",
+                                       U"http://example.com/%7Ffp3%3Eju%3Dduvgw%3Dd",
+                                       U"http://www.example.com/?%02hello%7F%20bye",
+                                       U"http://www.example.com/?q=%26%2355296%3B%26%2355296%3B",
+                                       U"http://www.example.com/?foo=bar",
+                                       U"http://www.example.com/#hello",
+                                       U"http://www.example.com/#%23asdf",
+                                       U"http:",
+                                       U"asdf:jkl;",
+                                       U"foof://:;@[::]/@;:??:;@/~@;://#//:;@~/@;:\?\?//:foof",
+                                       U"http://ay%40lmao:password@[fe80::]/p@th?q=@lol",
+                                       U"http://\u017C\u00F3\u0142\u0107.pl/"};
 
     auto const all_match =
       std::all_of(valid_inputs.begin(), valid_inputs.end(), [](auto const view) -> bool {
@@ -386,7 +385,7 @@ TEST_CASE("unicode_uri_test")
     CHECK(all_match);
 
     auto const invalid_inputs =
-      std::vector<boost::u32string_view>{U"http://192.168.0.1%20hello/", U"http://[google.com]/"};
+      std::vector<std::u32string_view>{U"http://192.168.0.1%20hello/", U"http://[google.com]/"};
 
     auto const none_match =
       std::all_of(invalid_inputs.begin(), invalid_inputs.end(), [](auto const view) -> bool {
